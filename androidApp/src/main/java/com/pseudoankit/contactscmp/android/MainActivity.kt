@@ -6,8 +6,10 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
-import com.pseudoankit.contactscmp.core.ui.App
+import com.pseudoankit.contactscmp.App
+import com.pseudoankit.contactscmp.di.AppModule
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,7 +18,8 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 App(
                     darkTheme = isSystemInDarkTheme(),
-                    dynamicColor = true
+                    dynamicColor = true,
+                    appModule = AppModule(LocalContext.current.applicationContext)
                 )
             }
         }

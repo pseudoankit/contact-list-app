@@ -17,17 +17,47 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pseudoankit.contactscmp.contacts.domain.Contact
+import com.pseudoankit.contactscmp.contacts.domain.ContactValidator
 import com.pseudoankit.contactscmp.contacts.presentation.ContactListEvent
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListState
+import com.pseudoankit.contactscmp.contacts.presentation.ContactsListViewModel
 import com.pseudoankit.contactscmp.contacts.presentation.ui.component.ContactListItem
+import com.pseudoankit.contactscmp.di.AppModule
+import dev.icerock.moko.mvvm.compose.getViewModel
+import dev.icerock.moko.mvvm.compose.viewModelFactory
+
+@Composable
+fun ContactListScreen(
+    appModule: AppModule
+) {
+    val viewModel = getViewModel(
+        key = "contact-list-screen",
+        factory = viewModelFactory {
+            ContactsListViewModel(
+                contactsRepository = appModule.contactsRepository,
+                contactValidator = ContactValidator
+            )
+        }
+    )
+
+    val state by viewModel.state.collectAsState()
+
+    ContactListScreen(
+        state = state,
+        newContact = viewModel.newContact,
+        onEvent = viewModel::onEvent
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ContactListScreen(
+private fun ContactListScreen(
     state: ContactsListState,
     newContact: Contact?,
     onEvent: (ContactListEvent) -> Unit

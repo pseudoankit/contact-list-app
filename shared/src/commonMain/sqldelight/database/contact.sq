@@ -1,0 +1,26 @@
+CREATE TABLE contactEntity (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    firstName TEXT NOT NULL,
+    lastName TEXT NOT NULL,
+    phoneNumber TEXT NOT NULL,
+    email TEXT NOT NULL,
+    createdAt INTEGER NOT NULL,
+    imagePath TEXT
+);
+
+getContacts:
+SELECT * FROM contactEntity ORDER BY firstName ASC;
+
+getContactsByLimit:
+SELECT * FROM contactEntity ORDER BY firstName ASC LIMIT :limit;
+
+getContactById:
+SELECT * FROM contactEntity WHERE id = :id;
+
+insert:
+INSERT OR REPLACE INTO contactEntity(id,firstName,lastName,phoneNumber,email,createdAt,imagePath)
+VALUES (?,?,?,?,?,?,?);
+
+deleteById:
+DELETE FROM contactEntity WHERE id = :id;
+
