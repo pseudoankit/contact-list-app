@@ -26,7 +26,7 @@ fun ContactPhoto(
     iconSize: Dp = 24.dp
 ) {
     val bitmap = rememberBitmapFromBytes(contact?.photoBytes)
-    val photoModifier = modifier.clip(RoundedCornerShape(35))
+    val photoModifier = modifier.size(iconSize).clip(RoundedCornerShape(35))
 
     if (bitmap != null) {
         Image(
@@ -44,8 +44,8 @@ fun ContactPhoto(
             Icon(
                 imageVector = Icons.Rounded.Person,
                 contentDescription = contact?.firstName,
-                modifier = Modifier.size(iconSize),
-                tint = MaterialTheme.colorScheme.secondaryContainer
+                modifier = Modifier.size(iconSize.times(.7f)),
+                tint = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
     }
