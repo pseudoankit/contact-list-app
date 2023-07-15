@@ -27,6 +27,7 @@ import com.pseudoankit.contactscmp.contacts.domain.ContactValidator
 import com.pseudoankit.contactscmp.contacts.presentation.ContactListEvent
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListState
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListViewModel
+import com.pseudoankit.contactscmp.contacts.presentation.ui.component.AddContactSheet
 import com.pseudoankit.contactscmp.contacts.presentation.ui.component.ContactListItem
 import com.pseudoankit.contactscmp.di.AppModule
 import dev.icerock.moko.mvvm.compose.getViewModel
@@ -120,15 +121,15 @@ private fun ContactListScreen(
 //        selectedContact = state.selectedContact,
 //        onEvent = onEvent,
 //    )
-//    AddContactSheet(
-//        state = state,
-//        newContact = newContact,
-//        isOpen = state.isAddContactSheetOpen,
-//        onEvent = { event ->
-//            if(event is ContactListEvent.OnAddPhotoClicked) {
+    AddContactSheet(
+        state = state,
+        newContact = newContact,
+        isOpen = state.isAddContactSheetOpen,
+        onEvent = { event ->
+            if (event is ContactListEvent.OnAddPhotoClicked) {
 //                imagePicker.pickImage()
-//            }
-//            onEvent(event)
-//        },
-//    )
+            }
+            onEvent(event)
+        },
+    )
 }

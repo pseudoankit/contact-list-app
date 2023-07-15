@@ -1,7 +1,7 @@
 package com.pseudoankit.contactscmp.core.data
 
-expect class ImageStorage {
-    suspend fun saveImage(bytes: ByteArray): String
-    suspend fun getImage(fileName: String): ByteArray?
-    suspend fun deleteImage(fileName: String)
-}
+//expect class ImageStorage {
+//    suspend fun saveImage(bytes: ByteArray): String
+//    suspend fun getImage(fileName: String): ByteArray?
+//    suspend fun deleteImage(fileName: String)
+//}
