@@ -27,7 +27,6 @@ import com.pseudoankit.contactscmp.contacts.domain.ContactValidator
 import com.pseudoankit.contactscmp.contacts.presentation.ContactListEvent
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListState
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListViewModel
-import com.pseudoankit.contactscmp.contacts.presentation.ui.component.AddContactSheet
 import com.pseudoankit.contactscmp.contacts.presentation.ui.component.ContactListItem
 import com.pseudoankit.contactscmp.core.presentation.ImagePicker
 import com.pseudoankit.contactscmp.di.AppModule
@@ -124,11 +123,12 @@ private fun ContactListScreen(
         }
     }
 
-//    ContactDetailSheet(
-//        isOpen = state.isSelectedContactSheetOpen,
-//        selectedContact = state.selectedContact,
-//        onEvent = onEvent,
-//    )
+    ContactDetailSheet(
+        isOpen = state.isSelectedContactSheetOpen,
+        selectedContact = state.selectedContact,
+        onEvent = onEvent,
+    )
+
     AddContactSheet(
         state = state,
         newContact = newContact,

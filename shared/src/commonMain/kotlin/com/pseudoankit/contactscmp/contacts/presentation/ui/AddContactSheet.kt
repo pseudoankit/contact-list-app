@@ -1,4 +1,4 @@
-package com.pseudoankit.contactscmp.contacts.presentation.ui.component
+package com.pseudoankit.contactscmp.contacts.presentation.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.pseudoankit.contactscmp.contacts.domain.Contact
 import com.pseudoankit.contactscmp.contacts.presentation.ContactListEvent
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListState
+import com.pseudoankit.contactscmp.contacts.presentation.ui.component.ContactPhoto
 import com.pseudoankit.contactscmp.core.presentation.BottomSheet
 
 @Composable
