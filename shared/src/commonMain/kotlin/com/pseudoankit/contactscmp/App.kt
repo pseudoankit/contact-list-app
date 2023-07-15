@@ -7,13 +7,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.pseudoankit.contactscmp.contacts.presentation.ui.ContactListScreen
 import com.pseudoankit.contactscmp.core.presentation.ContactsTheme
+import com.pseudoankit.contactscmp.core.presentation.ImagePicker
 import com.pseudoankit.contactscmp.di.AppModule
 
 @Composable
 fun App(
     darkTheme: Boolean,
     dynamicColor: Boolean,
-    appModule: AppModule
+    appModule: AppModule,
+    imagePicker: ImagePicker
 ) {
     ContactsTheme(darkTheme = darkTheme, dynamicColor = dynamicColor) {
         Surface(
@@ -22,7 +24,8 @@ fun App(
         ) {
 
             ContactListScreen(
-                appModule = appModule
+                appModule = appModule,
+                imagePicker = imagePicker
             )
         }
     }

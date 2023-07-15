@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.pseudoankit.contactscmp.App
+import com.pseudoankit.contactscmp.core.presentation.ImagePickerFactory
 import com.pseudoankit.contactscmp.di.AppModule
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +20,8 @@ class MainActivity : ComponentActivity() {
                 App(
                     darkTheme = isSystemInDarkTheme(),
                     dynamicColor = true,
-                    appModule = AppModule(LocalContext.current.applicationContext)
+                    appModule = AppModule(LocalContext.current.applicationContext),
+                    imagePicker = ImagePickerFactory().createPicker()
                 )
             }
         }

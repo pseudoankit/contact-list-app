@@ -29,13 +29,15 @@ import com.pseudoankit.contactscmp.contacts.presentation.ContactsListState
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListViewModel
 import com.pseudoankit.contactscmp.contacts.presentation.ui.component.AddContactSheet
 import com.pseudoankit.contactscmp.contacts.presentation.ui.component.ContactListItem
+import com.pseudoankit.contactscmp.core.presentation.ImagePicker
 import com.pseudoankit.contactscmp.di.AppModule
 import dev.icerock.moko.mvvm.compose.getViewModel
 import dev.icerock.moko.mvvm.compose.viewModelFactory
 
 @Composable
 fun ContactListScreen(
-    appModule: AppModule
+    appModule: AppModule,
+    imagePicker: ImagePicker
 ) {
     val viewModel = getViewModel(
         key = "contact-list-screen",
@@ -52,7 +54,8 @@ fun ContactListScreen(
     ContactListScreen(
         state = state,
         newContact = viewModel.newContact,
-        onEvent = viewModel::onEvent
+        onEvent = viewModel::onEvent,
+        imagePicker = imagePicker
     )
 }
 
@@ -61,8 +64,13 @@ fun ContactListScreen(
 private fun ContactListScreen(
     state: ContactsListState,
     newContact: Contact?,
-    onEvent: (ContactListEvent) -> Unit
+    onEvent: (ContactListEvent) -> Unit,
+    imagePicker: ImagePicker
 ) {
+    imagePicker.registerPicker {
+        onEvent(ContactListEvent.OnPhotoPicked(it))
+    }
+
     Scaffold(
         floatingActionButton = {
             FloatingActionButton(
@@ -127,7 +135,7 @@ private fun ContactListScreen(
         isOpen = state.isAddContactSheetOpen,
         onEvent = { event ->
             if (event is ContactListEvent.OnAddPhotoClicked) {
-//                imagePicker.pickImage()
+                imagePicker.pickImage()
             }
             onEvent(event)
         },
