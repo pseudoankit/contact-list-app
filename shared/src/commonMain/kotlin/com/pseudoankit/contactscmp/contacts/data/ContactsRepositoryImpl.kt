@@ -2,16 +2,21 @@ package com.pseudoankit.contactscmp.contacts.data
 
 import com.pseudoankit.contactscmp.contacts.domain.Contact
 import com.pseudoankit.contactscmp.contacts.domain.ContactsRepository
+import com.pseudoankit.contactscmp.core.data.ImageStorage
 import com.pseudoankit.contactscmp.database.ContactDatabase
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
 import com.squareup.sqldelight.runtime.coroutines.mapToOne
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.supervisorScope
 import kotlinx.datetime.Clock
 
 class ContactsRepositoryImpl(
-    private val database: ContactDatabase
+    private val database: ContactDatabase,
+    private val imageStorage: ImageStorage
 ) : ContactsRepository {
 
     private val query by lazy { database.contactQueries }
@@ -22,7 +27,11 @@ class ContactsRepositoryImpl(
             .asFlow()
             .mapToList()
             .map { entities ->
-                entities.map { entity -> entity.mapToDomain() }
+                supervisorScope {
+                    entities.map { entity ->
+                        async { entity.mapToDomain(imageStorage) }
+                    }.awaitAll()
+                }
             }
     }
 
@@ -32,21 +41,25 @@ class ContactsRepositoryImpl(
             .asFlow()
             .mapToList()
             .map { entities ->
-                entities.map { entity -> entity.mapToDomain() }
+                supervisorScope {
+                    entities.map { entity ->
+                        async { entity.mapToDomain(imageStorage) }
+                    }.awaitAll()
+                }
             }
     }
 
-    override fun getContactsById(id: Long): Flow<Contact> {
+    override fun getContactById(id: Long): Flow<Contact> {
         return query
             .getContactById(id)
             .asFlow()
             .mapToOne()
             .map { entity ->
-                entity.mapToDomain()
+                entity.mapToDomain(imageStorage)
             }
     }
 
-    override fun insert(contact: Contact) = with(contact) {
+    override suspend fun insert(contact: Contact) = with(contact) {
         query.insert(
             id = id,
             firstName = firstName,
@@ -54,11 +67,18 @@ class ContactsRepositoryImpl(
             phoneNumber = phoneNumber,
             email = email,
             createdAt = Clock.System.now().toEpochMilliseconds(),
-            imagePath = null
+            imagePath = contact.photoBytes?.let {
+                imageStorage.saveImage(it)
+            }
         )
     }
 
-    override fun delete(id: Long) {
+    override suspend fun delete(id: Long) {
+        val entity = query.getContactById(id).executeAsOne()
+        entity.imagePath?.let {
+            imageStorage.deleteImage(it)
+        }
+
         query.deleteById(id)
     }
 }
