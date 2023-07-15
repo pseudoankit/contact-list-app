@@ -28,6 +28,7 @@ import com.pseudoankit.contactscmp.contacts.presentation.ContactListEvent
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListState
 import com.pseudoankit.contactscmp.contacts.presentation.ContactsListViewModel
 import com.pseudoankit.contactscmp.contacts.presentation.ui.component.ContactListItem
+import com.pseudoankit.contactscmp.contacts.presentation.ui.component.RecentlyAddedContacts
 import com.pseudoankit.contactscmp.core.presentation.ImagePicker
 import com.pseudoankit.contactscmp.di.AppModule
 import dev.icerock.moko.mvvm.compose.getViewModel
@@ -90,14 +91,14 @@ private fun ContactListScreen(
             contentPadding = PaddingValues(vertical = 16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-//            item {
-//                RecentlyAddedContacts(
-//                    contacts = state.recentlyAddedContacts,
-//                    onClick = {
-//                        onEvent(ContactListEvent.SelectContact(it))
-//                    }
-//                )
-//            }
+            item {
+                RecentlyAddedContacts(
+                    contacts = state.recentlyAddedContacts,
+                    onClick = {
+                        onEvent(ContactListEvent.SelectContact(it))
+                    }
+                )
+            }
 
             item {
                 Text(
